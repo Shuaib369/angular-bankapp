@@ -4,10 +4,12 @@
         <div class="col-4">
             <div class="main">
                 <h4>Welcome to YES Bank</h4>
-                <h5>{{ aim }}</h5>
+                <h5>Register Form</h5>
 
                 <br /><br />
-                <form (ngSubmit)="login()">
+                <form (ngSubmit)="register()">
+                    <input id="uname" type="text" class="text" [(ngModel)]="uname" name="name" placeholder="User Name" />
+
                     <input id="accnotext" type="text" class="text" [(ngModel)]="accno" name="acc"
                         placeholder="Account Number" />
                     <br /><br />
@@ -15,14 +17,12 @@
                         placeholder="Password" />
                     <br />
                     <br />
-                    <input type="button" value="Log In" (click)="dashboard()" class="button butefct" />
-                    <br />
-                    <a class="textfp" href="#">Forgotten Password</a>
+
                     <div class="line"></div>
-                    <input type="button" value="Create new Account" (click)="register()"
-                        class="button button1 butefct" />
+                    <input type="button" value="Register" (click)="register()" class="button button1 butefct" />
                     <br />
                     <br /><br />
+                    <a routerLink="">Log In</a>
                 </form>
             </div>
         </div>

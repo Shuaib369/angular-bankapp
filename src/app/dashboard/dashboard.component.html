@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <div class="main">
+                <h4>Welcome to YES Bank</h4>
+                <h5>Welcome to Home</h5>
+                <h6>Deposit Form</h6>
+
+                <br /><br />
+
+                <form (ngSubmit)="dashboard()">
+                    <input id="accnotext" type="text" class="text" [(ngModel)]="dAccno" name="acc"placeholder="Account Number" />
+                    <br /><br />
+                    <input id="pswdtext" type="password" class="text" [(ngModel)]="dPswd" name="pass" placeholder="Password" />
+                    <br />
+                    <br />
+                    <input id="" type="text" class="id-amount" [(ngModel)]="dAmount" name="amount"placeholder="Amount" />
+                    <br><br>
+                    <input type="submit" value="Deposit Amount" class="button button1 butefct" onclick="Bank.deposit()"/>
+                    <br />
+                    <br /><br />
+                </form>
+            </div>
+        </div>
+        <div class="col-4"></div>
+    </div>
+</div>
