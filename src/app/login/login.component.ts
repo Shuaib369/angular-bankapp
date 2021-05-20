@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DataService } from '../services/data.service';
 
@@ -13,20 +14,23 @@ export class LoginComponent implements OnInit {
   accno = "Account Number Please"      //Binding Source
   pswd = "";
 
-  accountDetails = {
-    1000: { acno: 1000, username: "userone", password: "userone", balance: 50000 },
-    1001: { acno: 1001, username: "usertwo", password: "usertwo", balance: 5000 },
-    1002: { acno: 1002, username: "userthree", password: "userthree", balance: 10000 },
-    1003: { acno: 1003, username: "userfour", password: "userfour", balance: 6000 }
-  }
+  loginForm=this.fb.group({
+    accno:['',[Validators.required,Validators.minLength(4),Validators.pattern('[0-9]*')]],
+    pswd:['',[Validators.required,Validators.pattern('[a-zA-Z0-9]*')]]
+  })
 
-  constructor(private router:Router,private dataService:DataService) { }
+  // accountDetails = {
+  //   1000: { acno: 1000, username: "userone", password: "userone", balance: 50000 },
+  //   1001: { acno: 1001, username: "usertwo", password: "usertwo", balance: 5000 },
+  //   1002: { acno: 1002, username: "userthree", password: "userthree", balance: 10000 },
+  //   1003: { acno: 1003, username: "userfour", password: "userfour", balance: 6000 }
+  // }
+
+  constructor(private router:Router,private dataService:DataService, private fb:FormBuilder) { }
 
   ngOnInit(): void {
   }
-  dashboard(){
-    
-  }
+ 
 
   // accnochange(event: any) {
   //   this.accno = event.target.value;
@@ -47,14 +51,22 @@ this.router.navigateByUrl("register");
    // alert("login clicked")
    // var acno=this.accno;        //event binding
    // var pswd=this.pswd;        //event binding
-    var acno=this.accno;
-    var pswd=this.pswd;
-   // this.router.navigateByUrl("dashboard")
-    const result=this.dataService.login(acno,pswd)
-    if(result){
-   alert("Successful");
-  this.router.navigateByUrl("dashboard");
-    }
-  }
 
-}
+   if (this.loginForm.valid){
+    var acno=this.loginForm.value.accno;
+    var pswd=this.loginForm.value.pswd;
+   // this.router.navigateByUrl("dashboard")
+    const result=this.dataService.login(acno,pswd);
+    if(result){
+    alert("Successful");
+    this.router.navigateByUrl("dashboard");
+    }
+    else{
+      alert("Invalid Details");
+    }
+   }
+   else{
+     alert("Invalid Form");
+   }
+
+  }}

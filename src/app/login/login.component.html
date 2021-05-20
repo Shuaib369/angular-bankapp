@@ -7,16 +7,17 @@
                 <h5>{{ aim }}</h5>
 
                 <br /><br />
-                <form (ngSubmit)="login()">
-                    <input id="accnotext" type="text" class="text" [(ngModel)]="accno" name="acc"
-                        placeholder="Account Number" />
+                <form [formGroup]="loginForm" (ngSubmit)="login()">
+                    <input id="accnotext" type="text" class="text" formControlName="accno" name="acc"placeholder="Account Number" />
+                    <div *ngIf="(loginForm.get('accno')?.touched || loginForm.get('accno')?.dirty) && loginForm.get('accno')?.errors" class="error">Invalid Account No</div> <br />
+
                     <br /><br />
-                    <input id="pswdtext" type="password" class="text" [(ngModel)]="pswd" name="pass"
-                        placeholder="Password" />
-                    <br />
-                    <br />
-                    <input type="button" value="Log In" (click)="dashboard()" class="button butefct" />
-                    <br />
+                    <input id="pswdtext" type="password" class="text" formControlName="pswd" name="pass"placeholder="Password" />
+                    <div *ngIf="(loginForm.get('pswd')?.touched || loginForm.get('pswd')?.dirty) && loginForm.get('pswd')?.errors" class="error">Invalid Password</div> <br />
+
+                    <br /><br/>
+                    <input type="submit" value="Log In"  class="button butefct" />
+                      <br />
                     <a class="textfp" href="#">Forgotten Password</a>
                     <div class="line"></div>
                     <input type="button" value="Create new Account" (click)="register()"
