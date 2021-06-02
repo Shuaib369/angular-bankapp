@@ -30,6 +30,8 @@ export class DashboardComponent implements OnInit {
     wamount:['',[Validators.required,Validators.pattern('[0-9]*')]]
   })
 
+  user=this.dataService.currentUser;
+
   constructor(private dataService:DataService,private router:Router , private fb:FormBuilder) { }
 
   ngOnInit(): void {
@@ -37,7 +39,7 @@ export class DashboardComponent implements OnInit {
 
 
 deposit(){
-    
+    if(this.depositForm.valid){
   var accno=this.depositForm.value.accno;
   var pswd=this.depositForm.value.pswd;
   var amount=this.depositForm.value.amount;
@@ -47,7 +49,12 @@ deposit(){
     alert("the given amount "+amount+" has been credited... and the balance is:"+result);
   }
 }
+else{
+  alert("Invalid Form");
+}
+}
 withdrwal(){
+  if(this.depositForm.valid){
   var accno=this.withdrawForm.value.waccno;
   var pswd=this.withdrawForm.value.wpswd;
   var amount=this.withdrawForm.value.wamount;
@@ -56,10 +63,10 @@ withdrwal(){
   if(result){
     alert("the given amount "+amount+"has been debited .....and the balance is:"+result)
   }
-
-
-
 }
-
+else{
+  alert("Invalid Form");
+}
+}
 }
 

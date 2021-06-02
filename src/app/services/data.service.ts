@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import{HttpClient} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
+  currentUser="";
 
   accountDetails:any= {
     1000: { acno: 1000, username: "userone", password: "userone", balance: 50000 },
@@ -13,30 +15,57 @@ export class DataService {
     1003: { acno: 1003, username: "userfour", password: "userfour", balance: 6000 }
   }
 
-  constructor() { }
+  constructor( private http:HttpClient) { 
+    this.getDetails();
+   }
 
-  register(uname: any, acno: any, pswd: any) {
+   saveDetails(){
+     localStorage.setItem("accountDetails",JSON.stringify(this.accountDetails));
+    // if(this.currentUser){
+      localStorage.setItem("currentUser",JSON.stringify(this.currentUser));
+    // }
+    }
+    getDetails(){
+      if(localStorage.getItem("accountDetails")){
+        this.accountDetails= JSON.parse(localStorage.getItem("accountDetals") || '' )
+      }
+      if(localStorage.getItem("currentUser")){
+        this.currentUser= JSON.parse(localStorage.getItem("currentUser") || '' )
+      }
+    }
 
+  register(uname:any, acno:any, pswd:any) {
+    const data={
+      uname,
+      acno,
+      pswd
+    }
+    return this.http.post("http://localhost:3000/register",data)
+  }
+
+  //   let user = this.accountDetails;
+
+  //   if (acno in user) {
+  //     return false;
+  //   }
+  //   else {
+  //     user[acno] = {
+  //       acno,
+  //       username: uname,
+  //       password: pswd,
+  //       balance: 0
+  //     }
+  //     return true;
+  //   }
+  // }
+
+  
+  login(acno: any, pswd: any) {
     let user = this.accountDetails;
 
     if (acno in user) {
-      return false;
-    }
-    else {
-      user[acno] = {
-        acno,
-        username: uname,
-        password: pswd,
-        balance: 0
-      }
-      return true;
-    }
-  }
-  login(acno: any, pswd: any) {
-    let users = this.accountDetails;
-
-    if (acno in users) {
-      if (pswd == users[acno]["password"]) {
+      if (pswd == user[acno]["password"]) {
+        this.currentUser=user[acno]["username"]
         return true;
 
       }
@@ -60,6 +89,7 @@ deposit(accno:any,pswd:any,amt:any){
   if(accno in user){
    if (pswd == user[accno]["password"]) {
      user[accno]["balance"]+=amount;
+     this.saveDetails();
      return user[accno]["balance"];
   }
   else{
@@ -82,6 +112,7 @@ withdrwal(accno:any,pswd:any,amt:any){
 
     if(user[accno]["balance"] > amount){
       user[accno]["balance"]-=amount;
+      this.saveDetails();
       return user[accno]["balance"]
     }
     else{

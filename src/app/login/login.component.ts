@@ -25,37 +25,23 @@ export class LoginComponent implements OnInit {
   //   1002: { acno: 1002, username: "userthree", password: "userthree", balance: 10000 },
   //   1003: { acno: 1003, username: "userfour", password: "userfour", balance: 6000 }
   // }
+  
 
   constructor(private router:Router,private dataService:DataService, private fb:FormBuilder) { }
 
   ngOnInit(): void {
   }
- 
 
-  // accnochange(event: any) {
-  //   this.accno = event.target.value;
-  //   console.log(this.accno);
-
-  // }              //data fetching - you will get the given value in console  ($event)
-
-  // pswdchange(event: any) {
-  //   this.pswd = event.target.value;
-  //   console.log(this.pswd);
-
-  // }
   register(){
 this.router.navigateByUrl("register");
   }
 
   login() {
-   // alert("login clicked")
-   // var acno=this.accno;        //event binding
-   // var pswd=this.pswd;        //event binding
 
    if (this.loginForm.valid){
     var acno=this.loginForm.value.accno;
     var pswd=this.loginForm.value.pswd;
-   // this.router.navigateByUrl("dashboard")
+   
     const result=this.dataService.login(acno,pswd);
     if(result){
     alert("Successful");
