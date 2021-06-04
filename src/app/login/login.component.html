@@ -4,12 +4,11 @@
         <div class="col-4">
             <div class="main">
                 <h4>Welcome to YES Bank</h4>
-                <h5>{{ aim }}</h5>
-
+                
                 <br /><br />
                 <form [formGroup]="loginForm" (ngSubmit)="login()">
-                    <input id="accnotext" type="text" class="text" formControlName="accno" name="acc"placeholder="Account Number" />
-                    <div *ngIf="(loginForm.get('accno')?.touched || loginForm.get('accno')?.dirty) && loginForm.get('accno')?.errors" class="error">Invalid Account No</div> <br />
+                    <input id="accnotext" type="text" class="text" formControlName="acno" name="acc"placeholder="Account Number" />
+                    <div *ngIf="(loginForm.get('acno')?.touched || loginForm.get('acno')?.dirty) && loginForm.get('acno')?.errors" class="error">Invalid Account No</div> <br />
 
                     <br /><br />
                     <input id="pswdtext" type="password" class="text" formControlName="pswd" name="pass"placeholder="Password" />

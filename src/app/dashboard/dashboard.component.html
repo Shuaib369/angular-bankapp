@@ -1,14 +1,15 @@
 
 
 <div class="container">
+    <h1>Welcome {{user}}</h1>
     <div class="row">
         <div class="col-4"></div>
         <div class="col-4">
             
             <h4>Deposit Form</h4>
             <form [formGroup]= "depositForm" (ngSubmit) ="deposit()">
-            <input type="text" id="acno" name="Accno"  formControlName= "accno" placeholder="Enter Account Number">
-            <div *ngIf= "(depositForm.get('accno')?.touched || depositForm.get('accno')?.dirty) && depositForm.get('accno')?.errors" class="error">invalid acount number</div>
+            <input type="text" id="acno" name="Accno"  formControlName= "acno" placeholder="Enter Account Number">
+            <div *ngIf= "(depositForm.get('acno')?.touched || depositForm.get('acno')?.dirty) && depositForm.get('acno')?.errors" class="error">invalid acount number</div>
 
             <input type="password" id="pwd" name="Pswd"  formControlName= "pswd" placeholder="Enter password">    
             <div *ngIf= "(depositForm.get('pswd')?.touched || depositForm.get('pswd')?.dirty) && depositForm.get('pswd')?.errors" class="error">Invalid Password</div>

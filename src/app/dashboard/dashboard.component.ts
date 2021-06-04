@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
 
 
   depositForm=this.fb.group({ 
-    accno:['',[Validators.required,Validators.pattern('[0-9]*')]],
+    acno:['',[Validators.required,Validators.pattern('[0-9]*')]],
     pswd:['',[Validators.required,Validators.pattern('[a-zA-z0-9]*')]],
     amount:['',[Validators.required,Validators.pattern('[0-9]*')]]
   })
@@ -30,9 +30,11 @@ export class DashboardComponent implements OnInit {
     wamount:['',[Validators.required,Validators.pattern('[0-9]*')]]
   })
 
-  user=this.dataService.currentUser;
+  user:any;
 
-  constructor(private dataService:DataService,private router:Router , private fb:FormBuilder) { }
+  constructor(private dataService:DataService, private fb:FormBuilder) {
+    this.user=localStorage.getItem("name")
+   }
 
   ngOnInit(): void {
   }
@@ -40,26 +42,32 @@ export class DashboardComponent implements OnInit {
 
 deposit(){
     if(this.depositForm.valid){
-  var accno=this.depositForm.value.accno;
+  var acno=this.depositForm.value.acno;
   var pswd=this.depositForm.value.pswd;
   var amount=this.depositForm.value.amount;
 
-  const result = this.dataService.deposit(accno,pswd,amount)
-  if(result){
-    alert("the given amount "+amount+" has been credited... and the balance is:"+result);
+  this.dataService.deposit(acno,pswd,amount)
+  .subscribe((result:any)=>{
+    if(result){
+      alert(result.message)
+   }},
+   (result:any)=>{
+     alert(result.error.message)
+   } )
   }
-}
-else{
-  alert("Invalid Form");
-}
-}
+   else{
+     alert("Invalid form")
+   }
+  }
+
+  
 withdrwal(){
   if(this.depositForm.valid){
-  var accno=this.withdrawForm.value.waccno;
+  var acno=this.withdrawForm.value.waccno;
   var pswd=this.withdrawForm.value.wpswd;
   var amount=this.withdrawForm.value.wamount;
 
-  const result = this.dataService.withdrwal(accno,pswd,amount)
+  const result = this.dataService.withdrwal(acno,pswd,amount)
   if(result){
     alert("the given amount "+amount+"has been debited .....and the balance is:"+result)
   }

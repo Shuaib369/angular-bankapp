@@ -10,7 +10,7 @@
                 <form [formGroup]="registerForm" (ngSubmit)="register()">
                     <input id="uname" type="text" class="text" formControlName="uname" [(ngModel)]="uname" name="name" placeholder="User Name" />
                      <div *ngIf="(registerForm.get('uname')?.touched || registerForm.get('uname')?.dirty) && registerForm.get('uname')?.errors" class="error">Invalid Username</div> <br />
-                    <input id="accnotext" type="text" class="text" formControlName="accno" [(ngModel)]="accno" name="acc"placeholder="Account Number" />
+                    <input id="accnotext" type="text" class="text" formControlName="acno" [(ngModel)]="acno" name="acc"placeholder="Account Number" />
                     <div *ngIf="(registerForm.get('acno')?.touched || registerForm.get('acno')?.dirty) && registerForm.get('acno')?.errors" class="error"> Invalid Account No </div>
                     <br /><br />
                     <input id="pswdtext" type="password" class="text" formControlName="pswd" [(ngModel)]="pswd" name="pass"placeholder="Password" />

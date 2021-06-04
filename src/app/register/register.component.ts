@@ -11,7 +11,7 @@ import { DataService } from '../services/data.service';
 export class RegisterComponent implements OnInit {
 
   uname="";
-  accno="";
+  acno="";
   pswd="";
   
   registerForm=this.fb.group({
@@ -25,38 +25,49 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+
   register(){
-    // if(this.registerForm.valid){
-    //   alert("Form Valid");
-    // }
-    // else{
-    //   alert("Invalid Form");
-    // }    USED FOR CHECKING WEHTHER THE REGISTER FORM IS VALID OR NOT
-
-  //   console.log(this.registerForm.get('uname')?.errors)
-  // if(this.registerForm.get('uname')?.errors){
-  //     alert("Invalid Username ");
-  //   }
-    if(this.registerForm.valid){
-    var uname=this.registerForm.value.uname;
-    var acno=this.registerForm.value.accno;
-    var pswd= this.registerForm.value.pswd;
-
-    const result=this.dataService.register(uname,acno,pswd);
  
-    
-    if(result)
+    if(this.registerForm.valid){
+
+      
+     var uname = this.registerForm.value.uname;
+      var acno =this.registerForm.value.acno;
+      var pswd=this.registerForm.value.pswd;
+
+
+    this.dataService.register(uname,acno,pswd)
+    .subscribe((result:any)=>{
+      if(result)
     {
-     alert("Successfully Registered.....")
+     alert(result.message);
     this.router.navigateByUrl("")
     }
-    else
-      alert("User Already Exsist... Please login")
-      
-    }
-     else{
-      alert("Please Give Full Details")
-     }
+  },
+  (result)=>{
+    alert(result.error.message);
+  })
+}else {
+  alert("Invalid form");
+}
   }
 }
+
+ 
+    
+//     if(result)
+//     {
+//      alert("Successfully Registered.....")
+//     this.router.navigateByUrl("")
+//     }
+//     else
+//       alert("User Already Exsist... Please login")
+      
+//     }
+//      else{
+//       alert("Please Give Full Details")
+//      }
+//   }
+// }
 

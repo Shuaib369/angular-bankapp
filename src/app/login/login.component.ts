@@ -10,12 +10,10 @@ import { DataService } from '../services/data.service';
 })
 export class LoginComponent implements OnInit {
 
-  aim = "Your Perfect Banking Partner";
-  accno = "Account Number Please"      //Binding Source
-  pswd = "";
+  
 
   loginForm=this.fb.group({
-    accno:['',[Validators.required,Validators.minLength(4),Validators.pattern('[0-9]*')]],
+    acno:['',[Validators.required,Validators.minLength(4),Validators.pattern('[0-9]*')]],
     pswd:['',[Validators.required,Validators.pattern('[a-zA-Z0-9]*')]]
   })
 
@@ -39,20 +37,24 @@ this.router.navigateByUrl("register");
   login() {
 
    if (this.loginForm.valid){
-    var acno=this.loginForm.value.accno;
+    var acno=this.loginForm.value.acno;
     var pswd=this.loginForm.value.pswd;
    
-    const result=this.dataService.login(acno,pswd);
-    if(result){
-    alert("Successful");
-    this.router.navigateByUrl("dashboard");
-    }
-    else{
-      alert("Invalid Details");
-    }
-   }
-   else{
-     alert("Invalid Form");
-   }
-
-  }}
+    this.dataService.login(acno,pswd)     //asynchronous
+    .subscribe((result:any)=>{
+      if(result){
+        alert(result.message);
+        localStorage.setItem("name",result.name);
+        this.router.navigateByUrl("dashboard");
+        }
+    },
+    (result)=>{
+      alert(result.error.message)
+    })
+  }
+  else{
+    alert("invalid form");
+  }
+}
+   
+}

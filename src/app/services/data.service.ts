@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
 import{HttpClient} from '@angular/common/http';
 
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
 
   currentUser="";
+  options={
+    withCredentials:true
+  }
 
   accountDetails:any= {
     1000: { acno: 1000, username: "userone", password: "userone", balance: 50000 },
@@ -21,9 +26,8 @@ export class DataService {
 
    saveDetails(){
      localStorage.setItem("accountDetails",JSON.stringify(this.accountDetails));
-    // if(this.currentUser){
+ 
       localStorage.setItem("currentUser",JSON.stringify(this.currentUser));
-    // }
     }
     getDetails(){
       if(localStorage.getItem("accountDetails")){
@@ -43,77 +47,40 @@ export class DataService {
     return this.http.post("http://localhost:3000/register",data)
   }
 
-  //   let user = this.accountDetails;
 
-  //   if (acno in user) {
-  //     return false;
-  //   }
-  //   else {
-  //     user[acno] = {
-  //       acno,
-  //       username: uname,
-  //       password: pswd,
-  //       balance: 0
-  //     }
-  //     return true;
-  //   }
-  // }
 
-  
-  login(acno: any, pswd: any) {
-    let user = this.accountDetails;
+  login(acno:any, pswd:any) {
 
-    if (acno in user) {
-      if (pswd == user[acno]["password"]) {
-        this.currentUser=user[acno]["username"]
-        return true;
-
-      }
-      else {
-        alert("Invalid Password");
-        return false;
-      }
-
+    const data={
+      acno,
+      pswd
     }
-    else {
-      alert("Invalid account number");
-      return false;
-    }
-
-
+    return this.http.post("http://localhost:3000/login",data,this.options)
   }
 
-deposit(accno:any,pswd:any,amt:any){
-  var amount = parseInt(amt);
-  let user = this.accountDetails;
-  if(accno in user){
-   if (pswd == user[accno]["password"]) {
-     user[accno]["balance"]+=amount;
-     this.saveDetails();
-     return user[accno]["balance"];
-  }
-  else{
-    alert("incorrect password");
-    return false;
+  // http://localhost:3000/withdrwal
 
-  }
- }
- else{
-   alert("invalid account");
- return false;
- }
+deposit(acno:any,pswd:any,amt:any){
 
+const data={
+  acno,
+  pswd,
+  amt
 }
-withdrwal(accno:any,pswd:any,amt:any){
+return this.http.post("http://localhost:3000/deposit",data,this.options)
+}
+
+
+withdrwal(acno:any,pswd:any,amt:any){
   var amount = parseInt(amt);
   let user = this.accountDetails;
-  if(accno in user){
-   if (pswd == user[accno]["password"]) {
+  if(acno in user){
+   if (pswd == user[acno]["password"]) {
 
-    if(user[accno]["balance"] > amount){
-      user[accno]["balance"]-=amount;
+    if(user[acno]["balance"] > amount){
+      user[acno]["balance"]-=amount;
       this.saveDetails();
-      return user[accno]["balance"]
+      return user[acno]["balance"]
     }
     else{
       alert("insufficient balance")
