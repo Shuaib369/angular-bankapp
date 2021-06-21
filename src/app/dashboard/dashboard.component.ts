@@ -17,6 +17,7 @@ export class DashboardComponent implements OnInit {
   // wAccno="";
   // wPswd="";
   // wAmount="";
+  
 
 
   depositForm=this.fb.group({ 
@@ -31,6 +32,8 @@ export class DashboardComponent implements OnInit {
   })
 
   user:any;
+  router: any;
+  acno: string;
 
   constructor(private dataService:DataService, private fb:FormBuilder) {
     this.user=localStorage.getItem("name")
@@ -68,13 +71,34 @@ withdrwal(){
   var amount=this.withdrawForm.value.wamount;
 
   const result = this.dataService.withdrwal(acno,pswd,amount)
-  if(result){
-    alert("the given amount "+amount+"has been debited .....and the balance is:"+result)
-  }
+  .subscribe((result:any)=>{
+if(result){
+  alert(result.message)
+}},
+(result:any)=>{
+  alert(result.error.message)
+})
 }
 else{
-  alert("Invalid Form");
+  alert("invalid form")
 }
 }
-}
-
+onDelete(event:any){
+  this.dataService.deleteAccDetails(event)
+  .subscribe((result:any)=>{
+if(result){
+  alert(result.message)
+  this.router.navigateByUrl("")
+  }
+},
+  (result:any)=>{
+    alert(result.error.message)
+  })
+  }
+  onCancel(){
+    this.acno=""
+  }
+  deleteAcc(){
+    this.acno=localStorage.getItem("acno")
+  }
+  }

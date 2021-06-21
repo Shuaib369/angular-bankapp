@@ -58,7 +58,7 @@ export class DataService {
     return this.http.post("http://localhost:3000/login",data,this.options)
   }
 
-  // http://localhost:3000/withdrwal
+  // 
 
 deposit(acno:any,pswd:any,amt:any){
 
@@ -71,31 +71,23 @@ return this.http.post("http://localhost:3000/deposit",data,this.options)
 }
 
 
-withdrwal(acno:any,pswd:any,amt:any){
-  var amount = parseInt(amt);
-  let user = this.accountDetails;
-  if(acno in user){
-   if (pswd == user[acno]["password"]) {
+withdrwal(acno:any,pswd:any,amount:any){
 
-    if(user[acno]["balance"] > amount){
-      user[acno]["balance"]-=amount;
-      this.saveDetails();
-      return user[acno]["balance"]
-    }
-    else{
-      alert("insufficient balance")
-      return false;
-    }
-  }
-  else{
-  alert("incorrect password")
-  return false;
-  }
-}
-else{
-  alert("invalid account")
-  return false;
-}
-}
-}
 
+  const data={
+    acno,
+    pswd,
+    amount
+  }
+  return this.http.post("http://localhost:3000/withdrwal",data,this.options)
+  }
+
+  deleteAccDetails(acno:any){
+    return this.http.delete("http://localhost:3000/deleteAccDetails"+acno,this.options)
+
+  }
+
+
+
+}
+  
